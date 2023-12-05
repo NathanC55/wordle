@@ -1,0 +1,10 @@
+{
+  "name": "wordle",
+  "version": "0.1.0",
+  "scripts": {
+    "start": "tsc --watch"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.2"
+  }
+}
