@@ -1,4 +1,16 @@
+let words: string[] = [];
+
+fetch("/src/assets/wordList.json")
+  .then((response) => response.json())
+  .then((data) => {
+    // Use data as needed
+    words = data;
+    console.log(data);
+  })
+  .catch((error) => console.error("Error loading JSON:", error));
+
 const wordOfTheDay = "gamer";
+const wordList = ["gamer", "audio", "yoink"];
 let tries = 0;
 let guess = 0;
 let row = 1;
@@ -10,6 +22,7 @@ document.addEventListener("keyup", (event) => {
   const previousLetterContainer = wordRow?.querySelector(
     `.letter-${guess - 1}`
   );
+  let fullWord = "";
 
   if (
     letterContainer != undefined &&
@@ -33,6 +46,17 @@ document.addEventListener("keyup", (event) => {
     }
 
     guess = guess - 1;
+  }
+
+  if (keyClicked === "Enter") {
+    for (let x = 0; x < 5; x++) {
+      fullWord += wordRow?.querySelector(`.letter-${x}`)?.innerHTML;
+    }
+
+    if (words.includes(fullWord)) {
+      row = row + 1;
+      guess = 0;
+    }
   }
 
   console.log(guess);
