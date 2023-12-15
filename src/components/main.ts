@@ -63,15 +63,17 @@ document.addEventListener("keyup", (event) => {
         if (wordOfTheDay[i] === fullWord[i]) {
           wordRow?.querySelector(`.letter-${i}`)?.classList.add("correct");
           correctCount += 1;
-          console.log("same spot");
         } else if (wordOfTheDay.includes(fullWord[i])) {
           wordRow
             ?.querySelector(`.letter-${i}`)
             ?.classList.add("incorrect-spot");
-          console.log("in word wrong spot");
         } else {
           wordRow?.querySelector(`.letter-${i}`)?.classList.add("wrong");
         }
+      }
+
+      if (correctCount === 5) {
+        console.log("you win");
       }
 
       row = row + 1;
@@ -80,5 +82,3 @@ document.addEventListener("keyup", (event) => {
     }
   }
 });
-
-console.log("in branch");
