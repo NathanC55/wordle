@@ -22,7 +22,7 @@ document.addEventListener("keyup", (event) => {
     `.letter-${guess - 1}`
   );
   let fullWord = "";
-
+  let correctCount = 0;
   //handles letters
   if (
     letterContainer != undefined &&
@@ -57,8 +57,28 @@ document.addEventListener("keyup", (event) => {
 
     if (words.includes(fullWord)) {
       // in here right code to compare guessed word to wordOfTheDay
+
+      for (let i = 0; i < 5; i++) {
+        //checks if same spot
+        if (wordOfTheDay[i] === fullWord[i]) {
+          wordRow?.querySelector(`.letter-${i}`)?.classList.add("correct");
+          correctCount += 1;
+          console.log("same spot");
+        } else if (wordOfTheDay.includes(fullWord[i])) {
+          wordRow
+            ?.querySelector(`.letter-${i}`)
+            ?.classList.add("incorrect-spot");
+          console.log("in word wrong spot");
+        } else {
+          wordRow?.querySelector(`.letter-${i}`)?.classList.add("wrong");
+        }
+      }
+
       row = row + 1;
       guess = 0;
+      tries += 1;
     }
   }
 });
+
+console.log("in branch");
