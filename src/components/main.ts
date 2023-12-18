@@ -12,7 +12,36 @@ const wordOfTheDay = "gamer";
 let tries = 0;
 let guess = 0;
 let row = 1;
+let buttonClicked = "";
 const letter = /^[a-zA-Z]+$/;
+const buttonsContainer = document.querySelector(".buttons-container");
+const keyboard = [
+  ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
+  ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
+  ["ENTER", "Z", "X", "C", "V", "B", "N", "M", "BACKSPACE"],
+];
+
+keyboard.forEach((keyBoardRow) => {
+  keyBoardRow.forEach((key) => {
+    if (buttonsContainer != undefined) {
+      buttonsContainer.innerHTML += `<button class='letter-button'>${key}</button>`;
+    }
+  });
+  if (buttonsContainer != undefined) {
+    buttonsContainer.innerHTML += `<br>`;
+  }
+});
+
+const fullKeyBoard = document.querySelectorAll(".letter-button");
+
+fullKeyBoard.forEach((buttonElement) => {
+  buttonElement.addEventListener("click", (event) => {
+    const button: string = buttonElement.innerHTML;
+    buttonClicked = button;
+
+    console.log(button);
+  });
+});
 
 document.addEventListener("keyup", (event) => {
   const wordRow = document.querySelector(`.row-${row}`);
