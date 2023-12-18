@@ -1,5 +1,7 @@
 let words: string[] = [];
 
+// put word check into a function instead of event listener
+
 fetch("/src/assets/wordList.json")
   .then((response) => response.json())
   .then((data) => {
@@ -21,23 +23,6 @@ let guess = 0;
 let row = 1;
 
 const letter = /^[a-zA-Z]+$/;
-const buttonsContainer = document.querySelector(".buttons-container");
-const keyboard = [
-  ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
-  ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
-  ["Enter", "Z", "X", "C", "V", "B", "N", "M", "Backspace"],
-];
-
-keyboard.forEach((keyBoardRow) => {
-  keyBoardRow.forEach((key) => {
-    if (buttonsContainer != undefined) {
-      buttonsContainer.innerHTML += `<button class='letter-button'>${key}</button>`;
-    }
-  });
-  if (buttonsContainer != undefined) {
-    buttonsContainer.innerHTML += `<br>`;
-  }
-});
 
 const fullKeyBoard = document.querySelectorAll(".letter-button");
 
