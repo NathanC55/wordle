@@ -8,17 +8,24 @@ fetch("/src/assets/wordList.json")
   })
   .catch((error) => console.error("Error loading JSON:", error));
 
-const wordOfTheDay = "gamer";
+let wordOfTheDay = "gamer";
+
+// function generateNewWord() {
+//   wordOfTheDay = words[Math.floor(Math.random() * words.length)];
+//   localStorage.setItem("word", wordOfTheDay);
+//   return wordOfTheDay;
+// }
+
 let tries = 0;
 let guess = 0;
 let row = 1;
-let buttonClicked = "";
+
 const letter = /^[a-zA-Z]+$/;
 const buttonsContainer = document.querySelector(".buttons-container");
 const keyboard = [
   ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
   ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
-  ["ENTER", "Z", "X", "C", "V", "B", "N", "M", "BACKSPACE"],
+  ["Enter", "Z", "X", "C", "V", "B", "N", "M", "Backspace"],
 ];
 
 keyboard.forEach((keyBoardRow) => {
@@ -37,16 +44,16 @@ const fullKeyBoard = document.querySelectorAll(".letter-button");
 fullKeyBoard.forEach((buttonElement) => {
   buttonElement.addEventListener("click", (event) => {
     const button: string = buttonElement.innerHTML;
-    buttonClicked = button;
 
+    document.dispatchEvent(new KeyboardEvent("keyup", { key: button }));
     console.log(button);
   });
 });
 
-document.addEventListener("keyup", (event) => {
+document.addEventListener("keyup", function keyUpEvent(event) {
   const wordRow = document.querySelector(`.row-${row}`);
   const letterContainer = wordRow?.querySelector(`.letter-${guess}`);
-  const keyClicked: string = event.key;
+  const keyClicked: string = event.key.toLocaleLowerCase();
   const previousLetterContainer = wordRow?.querySelector(
     `.letter-${guess - 1}`
   );
@@ -66,7 +73,7 @@ document.addEventListener("keyup", (event) => {
   }
 
   //handles backspace
-  if (keyClicked === "Backspace") {
+  if (keyClicked === "backspace") {
     // need to delete previous letter
     if (guess === 0) {
       return;
@@ -79,7 +86,7 @@ document.addEventListener("keyup", (event) => {
   }
 
   // handles Enter: which checks if word is real
-  if (keyClicked === "Enter") {
+  if (keyClicked === "enter") {
     for (let x = 0; x < 5; x++) {
       fullWord += wordRow?.querySelector(`.letter-${x}`)?.innerHTML;
     }
@@ -102,6 +109,7 @@ document.addEventListener("keyup", (event) => {
       }
 
       if (correctCount === 5) {
+        document.removeEventListener("keyup", keyUpEvent);
         console.log("you win");
       }
 
@@ -109,6 +117,7 @@ document.addEventListener("keyup", (event) => {
       guess = 0;
       tries += 1;
       if (tries === 6) {
+        document.removeEventListener("keyup", keyUpEvent);
         console.log("you lose");
       }
     }
