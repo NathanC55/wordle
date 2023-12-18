@@ -3,3 +3,12 @@
   flex-direction: row;
   gap: 10px;
 }
+.correct {
+  background-color: rgb(6, 187, 6);
+}
+.incorrect-spot {
+  background-color: yellow;
+}
+.wrong {
+  background-color: grey;
+}
