@@ -58,17 +58,17 @@ document.addEventListener("keyup", (event) => {
     if (words.includes(fullWord)) {
       // in here right code to compare guessed word to wordOfTheDay
 
-      for (let i = 0; i < 5; i++) {
+      for (let y = 0; y < 5; y++) {
         //checks if same spot
-        if (wordOfTheDay[i] === fullWord[i]) {
-          wordRow?.querySelector(`.letter-${i}`)?.classList.add("correct");
+        if (wordOfTheDay[y] === fullWord[y]) {
+          wordRow?.querySelector(`.letter-${y}`)?.classList.add("correct");
           correctCount += 1;
-        } else if (wordOfTheDay.includes(fullWord[i])) {
+        } else if (wordOfTheDay.includes(fullWord[y])) {
           wordRow
-            ?.querySelector(`.letter-${i}`)
+            ?.querySelector(`.letter-${y}`)
             ?.classList.add("incorrect-spot");
         } else {
-          wordRow?.querySelector(`.letter-${i}`)?.classList.add("wrong");
+          wordRow?.querySelector(`.letter-${y}`)?.classList.add("wrong");
         }
       }
 
@@ -79,6 +79,9 @@ document.addEventListener("keyup", (event) => {
       row = row + 1;
       guess = 0;
       tries += 1;
+      if (tries === 6) {
+        console.log("you lose");
+      }
     }
   }
 });
