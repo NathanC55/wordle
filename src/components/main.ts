@@ -1,5 +1,10 @@
 let words: string[] = [];
 
+// add animation for letter reveals
+// add new word generator
+// keep tack of wins and loses
+// add keyboard colors
+
 fetch("/src/assets/wordList.json")
   .then((response) => response.json())
   .then((data) => {
