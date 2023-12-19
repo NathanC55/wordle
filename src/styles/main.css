@@ -5,6 +5,24 @@ body {
   padding: 0;
 }
 
+@keyframes flip {
+  0% {
+    transform: scaleY(1);
+  }
+
+  50% {
+    transform: scaleY(0);
+  }
+
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+.flip {
+  animation: flip 500ms ease forwards;
+}
+
 .nav-bar {
   display: flex;
   height: 65px;

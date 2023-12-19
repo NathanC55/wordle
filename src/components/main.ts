@@ -1,6 +1,5 @@
 let words: string[] = [];
 
-// add animation for letter reveals
 // add new word generator
 // keep tack of wins and loses
 // add keyboard colors
@@ -80,11 +79,19 @@ document.addEventListener("keyup", function keyUpEvent(event) {
           ? "incorrect-spot"
           : "wrong";
 
-      wordRow?.querySelector(`.letter-${y}`)?.classList.add(letterClass);
+      const currentElement = wordRow?.querySelector(`.letter-${y}`);
+
+      if (currentElement) {
+        setTimeout(() => {
+          currentElement.classList.add(letterClass);
+          currentElement.classList.add(`flip`);
+        }, y * 400);
+      }
 
       correctCount += wordOfTheDay[y] === fullWord[y] ? 1 : 0;
     }
   }
+
   // handles Enter: which checks if word is real
   if (clickedKey === "enter") {
     for (let x = 0; x < 5; x++) {
