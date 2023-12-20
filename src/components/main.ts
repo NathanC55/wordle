@@ -1,4 +1,3 @@
-// add new word generator
 // keep tack of wins and loses
 // add keyboard colors
 
