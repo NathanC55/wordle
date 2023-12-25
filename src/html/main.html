@@ -18,17 +18,26 @@
   </head>
   <body>
     <nav class="nav-bar">
-      <!-- <button class="word-generator">Generate New Word</button> -->
+      <button class="word-generator">Generate New Word</button>
       <div class="empty-div"></div>
       <div class="title-container"><div class="title">Wordle Clone</div></div>
       <div class="nav-tools">
         <button class="statistics-button">
           <i class="fa-solid fa-chart-simple statistics"></i>
         </button>
+
         <button class="statistics-button">
           <i class="fa-solid fa-gear statistics"></i>
         </button>
       </div>
+
+      <dialog class="stats">
+        <div id="total-games-played">0</div>
+        <div id="total-wins">0</div>
+        <div id="total-losses">0</div>
+        <div id="streak">0</div>
+        <button class="close-stats" autofocus>X</button>
+      </dialog>
     </nav>
     <main class="game-container">
       <div class="box-container">
@@ -114,5 +123,6 @@
       </div>
     </main>
     <script src="/dist/components/main.js"></script>
+    <script src="/dist/components/statistics.js"></script>
   </body>
 </html>
