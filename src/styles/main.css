@@ -57,6 +57,9 @@ body {
   font-size: 25px;
 }
 
+.stats {
+  width: 50px;
+}
 .game-container {
   margin-top: 40px;
   display: flex;

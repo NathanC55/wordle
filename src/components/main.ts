@@ -1,5 +1,9 @@
-// keep tack of wins and loses
 // add keyboard colors
+// clear board when generating a new word
+// keep board when reloading page
+let wins: number = Number(localStorage.getItem("wins"));
+let losses: number = Number(localStorage.getItem("losses"));
+let streak: number = Number(localStorage.getItem("streak"));
 
 function main(words: string[]) {
   const generateNewWordButton = document.querySelector(".word-generator");
@@ -35,7 +39,6 @@ function main(words: string[]) {
       const button: string = buttonElement.innerHTML;
 
       document.dispatchEvent(new KeyboardEvent("keyup", { key: button }));
-      console.log(button);
     });
   });
 
@@ -112,6 +115,11 @@ function main(words: string[]) {
           document.removeEventListener("keyup", keyUpEvent);
 
           console.log("you win");
+          wins += 1;
+          streak += 1;
+          localStorage.setItem("wins", JSON.stringify(wins));
+          localStorage.setItem("streak", JSON.stringify(streak));
+          loadStatistics();
           return;
         }
 
@@ -120,6 +128,11 @@ function main(words: string[]) {
 
         if (tries === 6) {
           document.removeEventListener("keyup", keyUpEvent);
+          losses += 1;
+          localStorage.setItem("losses", JSON.stringify(losses));
+          streak = 0;
+          localStorage.setItem("streak", JSON.stringify(streak));
+          loadStatistics();
           console.log("you lose");
         }
 
