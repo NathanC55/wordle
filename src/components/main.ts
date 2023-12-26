@@ -1,9 +1,9 @@
-// add keyboard colors
 // clear board when generating a new word
 // keep board when reloading page
 let wins: number = Number(localStorage.getItem("wins"));
 let losses: number = Number(localStorage.getItem("losses"));
 let streak: number = Number(localStorage.getItem("streak"));
+let guessedWords = localStorage.getItem("guessedWords")?.split(" ");
 
 function main(words: string[]) {
   const generateNewWordButton = document.querySelector(".word-generator");
@@ -67,7 +67,6 @@ function main(words: string[]) {
 
     //handles backspace
     if (clickedKey === "backspace") {
-      // need to delete previous letter
       if (keysClicked === 0) {
         return;
       }
@@ -117,6 +116,16 @@ function main(words: string[]) {
       if (words.includes(fullWord)) {
         // in here right code to compare guessed word to wordOfTheDay
         wordCheck();
+
+        if (guessedWords === undefined) {
+          guessedWords = [];
+        }
+
+        guessedWords.push(fullWord);
+        localStorage.setItem("guessedWords", JSON.stringify(guessedWords));
+
+        console.log(guessedWords);
+
         if (correctCount === 5) {
           document.removeEventListener("keyup", keyUpEvent);
 
