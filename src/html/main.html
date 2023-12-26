@@ -4,10 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/src/styles/main.css" />
+    <link rel="stylesheet" href="/src/styles/statistics.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Kalnia:wght@600&family=Roboto:ital,wght@0,400;0,700;1,500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Kalnia:wght@600&family=Roboto:ital,wght@0,400;0,700;1,100;1,500&display=swap"
       rel="stylesheet"
     />
     <title>Wordle</title>
@@ -32,11 +33,18 @@
       </div>
 
       <dialog class="stats">
-        <div id="total-games-played">0</div>
-        <div id="total-wins">0</div>
-        <div id="total-losses">0</div>
-        <div id="streak">0</div>
-        <button class="close-stats" autofocus>X</button>
+        <div class="stats-container">
+          <div class="statistics-heading">
+            <div>STATISTICS</div>
+            <button class="close-stats">X</button>
+          </div>
+          <div class="game-stats">
+            <div class="number-stat" id="total-games-played">0</div>
+            <div class="number-stat" id="total-wins">0</div>
+            <div class="number-stat" id="total-losses">0</div>
+            <div class="number-stat" id="streak">0</div>
+          </div>
+        </div>
       </dialog>
     </nav>
     <main class="game-container">
