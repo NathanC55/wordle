@@ -1,0 +1,47 @@
+.stats-container {
+  display: flex;
+  flex-direction: column;
+}
+.statistics-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: Roboto, Arial;
+  font-size: 20px;
+  text-transform: capitalize;
+  font-weight: bold;
+}
+.close-stats {
+  width: 25px;
+  height: 25px;
+  background-color: transparent;
+  border: none;
+}
+
+.game-stats {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.number-stat {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: 800;
+  font-size: 40px;
+  min-width: 80px;
+}
+.number {
+  margin-bottom: 0;
+  font-family: Roboto, Arial;
+}
+.font {
+  font-family: Roboto, Arial;
+  font-size: 20px;
+  font-weight: 100;
+  font-style: italic;
+}

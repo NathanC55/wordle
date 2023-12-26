@@ -23,10 +23,13 @@ function loadStatistics() {
     totalStreaks != null
   ) {
     let gamesPlayed = wins + losses;
-    totalGamesPlayed.innerHTML = `${gamesPlayed} Total Games Played`;
-    totalWins.innerHTML = `${wins} Total Wins`;
-    totalLosses.innerHTML = `${losses} Total Losses`;
-    totalStreaks.innerHTML = `${streak} Win Streak`;
+    totalGamesPlayed.innerHTML = `<div class="number">${gamesPlayed}</div><div class="font">Played</div>`;
+
+    totalWins.innerHTML = `<div class="number">${wins}</div><div class="font">Wins</div>`;
+
+    totalLosses.innerHTML = `<div class="number">${losses}</div><div class="font">Losses</div>`;
+
+    totalStreaks.innerHTML = `<div class="number">${streak}</div><div class="font">Streak</div>`;
   }
 }
 
