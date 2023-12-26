@@ -94,17 +94,17 @@ body {
 }
 
 .correct {
-  background-color: rgb(6, 187, 6);
+  background-color: rgb(6, 187, 6) !important;
   color: white;
   border-color: rgb(6, 187, 6);
 }
 .incorrect-spot {
-  background-color: #c9b458;
+  background-color: #c9b458 !important;
   color: white;
   border-color: #c9b458;
 }
 .wrong {
-  background-color: grey;
+  background-color: grey !important;
   color: white;
   border-color: grey;
 }

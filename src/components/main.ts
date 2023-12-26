@@ -89,12 +89,18 @@ function main(words: string[]) {
               : "wrong";
 
           const currentElement = wordRow?.querySelector(`.letter-${y}`);
+          const buttonElement = document.querySelector(
+            `.${fullWord[y].toLocaleUpperCase()}`
+          );
 
           if (currentElement) {
             setTimeout(() => {
               currentElement.classList.add(letterClass);
               currentElement.classList.add(`flip`);
             }, y * 400);
+            setTimeout(() => {
+              buttonElement?.classList.add(`${letterClass}`);
+            }, 6 * 400);
           }
 
           correctCount += wordOfTheDay[y] === fullWord[y] ? 1 : 0;
