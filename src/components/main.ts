@@ -3,9 +3,13 @@
 let wins: number = Number(localStorage.getItem("wins"));
 let losses: number = Number(localStorage.getItem("losses"));
 let streak: number = Number(localStorage.getItem("streak"));
-let guessedWords = localStorage.getItem("guessedWords")?.split(" ");
+let guessedWords: string[] = JSON.parse(
+  localStorage.getItem("guessedWords") || "[]"
+);
 
 function main(words: string[]) {
+  guessedWords?.forEach((word) => {});
+
   const generateNewWordButton = document.querySelector(".word-generator");
 
   generateNewWordButton?.addEventListener("click", () => {
@@ -52,18 +56,21 @@ function main(words: string[]) {
     let fullWord = "";
     let correctCount = 0;
     //handles letters
-    if (
-      letterContainer != undefined &&
-      letter.test(clickedKey) === true &&
-      clickedKey.length === 1
-    ) {
-      letterContainer.innerHTML = clickedKey;
-      if (keysClicked === 5) {
-        return;
-      }
+    function handleLetterClicks(key: string) {
+      if (
+        letterContainer != undefined &&
+        letter.test(clickedKey) === true &&
+        clickedKey.length === 1
+      ) {
+        letterContainer.innerHTML = key;
+        if (keysClicked === 5) {
+          return;
+        }
 
-      keysClicked++;
+        keysClicked++;
+      }
     }
+    handleLetterClicks(clickedKey);
 
     //handles backspace
     if (clickedKey === "backspace") {
@@ -77,19 +84,19 @@ function main(words: string[]) {
       keysClicked = keysClicked - 1;
     }
 
-    function wordCheck() {
+    function wordCheck(word: string) {
       for (let y = 0; y < 5; y++) {
         if (wordOfTheDay != null) {
           const letterClass =
-            wordOfTheDay[y] === fullWord[y]
+            wordOfTheDay[y] === word[y]
               ? "correct"
-              : wordOfTheDay.includes(fullWord[y])
+              : wordOfTheDay.includes(word[y])
               ? "incorrect-spot"
               : "wrong";
 
           const currentElement = wordRow?.querySelector(`.letter-${y}`);
           const buttonElement = document.querySelector(
-            `.${fullWord[y].toLocaleUpperCase()}`
+            `.${word[y].toLocaleUpperCase()}`
           );
 
           if (currentElement) {
@@ -102,7 +109,7 @@ function main(words: string[]) {
             }, 6 * 400);
           }
 
-          correctCount += wordOfTheDay[y] === fullWord[y] ? 1 : 0;
+          correctCount += wordOfTheDay[y] === word[y] ? 1 : 0;
         }
       }
     }
@@ -115,7 +122,7 @@ function main(words: string[]) {
 
       if (words.includes(fullWord)) {
         // in here right code to compare guessed word to wordOfTheDay
-        wordCheck();
+        wordCheck(fullWord);
 
         if (guessedWords === undefined) {
           guessedWords = [];
@@ -123,7 +130,6 @@ function main(words: string[]) {
 
         guessedWords.push(fullWord);
         localStorage.setItem("guessedWords", JSON.stringify(guessedWords));
-
         console.log(guessedWords);
 
         if (correctCount === 5) {
