@@ -1,11 +1,9 @@
-// clear board when generating a new word
-// keep board when reloading page
 // deal with bug, when winning game, it lets you effect the word if page is refreshed
 let wordOfTheDay = localStorage.getItem("word");
 let wins: number = Number(localStorage.getItem("wins"));
 let losses: number = Number(localStorage.getItem("losses"));
 let streak: number = Number(localStorage.getItem("streak"));
-let tries = 0;
+let tries: number = Number(localStorage.getItem("tries")) || 0;
 let keysClicked = 0;
 let row: number = Number(localStorage.getItem("row")) || 1;
 let guessedWords: string[] = JSON.parse(
@@ -15,16 +13,11 @@ let guessedWords: string[] = JSON.parse(
 const letter = /^[a-zA-Z]+$/;
 const fullKeyBoard = document.querySelectorAll(".letter-button");
 
-const updateWinItem = () => {
-  localStorage.setItem("wins", JSON.stringify(wins));
-  localStorage.setItem("streak", JSON.stringify(streak));
+const clearLocalStorage = (item: string) => {
+  localStorage.setItem(item, "");
 };
-const updateLossItem = () => {
-  localStorage.setItem("losses", JSON.stringify(wins));
-  localStorage.setItem("streak", JSON.stringify(streak));
-};
-const updateRowItem = () => {
-  localStorage.setItem("row", JSON.stringify(row));
+const updateLocalStorage = (key: string, value: number) => {
+  localStorage.setItem(key, JSON.stringify(value));
 };
 
 function wordCheck(word: string, wordRow: Element | null, correctCount = 0) {
@@ -99,6 +92,11 @@ function main(words: string[]) {
       fiveLetterWords[Math.floor(Math.random() * fiveLetterWords.length)];
     localStorage.setItem("word", newWord);
     wordOfTheDay = newWord;
+    row = 1;
+    updateLocalStorage("row", row);
+    clearLocalStorage("guessedWords");
+
+    location.reload();
   }
 
   if (!wordOfTheDay) {
@@ -163,21 +161,24 @@ function main(words: string[]) {
           wins += 1;
           streak += 1;
 
-          updateWinItem();
+          updateLocalStorage("wins", wins);
+          updateLocalStorage("streak", streak);
           loadStatistics();
 
           return;
         }
 
         row = row + 1;
-        updateRowItem();
+        updateLocalStorage("row", row);
         tries += 1;
+        updateLocalStorage("tries", tries);
 
         if (tries === 6) {
           deactivateGame();
           losses += 1;
           streak = 0;
-          updateLossItem();
+          updateLocalStorage("losses", losses);
+          updateLocalStorage("streak", streak);
           loadStatistics();
           console.log("you lose");
         }
