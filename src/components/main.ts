@@ -1,4 +1,3 @@
-//fix tries issue
 // add lose feature
 let words: string[] = [];
 let wordOfTheDay = localStorage.getItem("word");
@@ -100,7 +99,9 @@ function main(words: string[]) {
     localStorage.setItem("word", newWord);
     wordOfTheDay = newWord;
     row = 1;
+    tries = 0;
     updateLocalStorage("row", row);
+    updateLocalStorage("tries", tries);
     clearLocalStorage("guessedWords");
 
     location.reload();
@@ -110,9 +111,7 @@ function main(words: string[]) {
     generateNewWord();
   }
 
-  generateNewWordButton?.addEventListener("click", () => {
-    generateNewWord();
-  });
+  generateNewWordButton?.addEventListener("click", generateNewWord);
   // end -------------------------
 }
 
