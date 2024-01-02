@@ -1,4 +1,6 @@
-// deal with bug, when winning game, it lets you effect the word if page is refreshed
+//fix tries issue
+// add lose feature
+let words: string[] = [];
 let wordOfTheDay = localStorage.getItem("word");
 let wins: number = Number(localStorage.getItem("wins"));
 let losses: number = Number(localStorage.getItem("losses"));
@@ -9,15 +11,27 @@ let row: number = Number(localStorage.getItem("row")) || 1;
 let guessedWords: string[] = JSON.parse(
   localStorage.getItem("guessedWords") || "[]"
 );
-
 const letter = /^[a-zA-Z]+$/;
 const fullKeyBoard = document.querySelectorAll(".letter-button");
+
+document.addEventListener("keyup", keyUpEvent);
+
+fullKeyBoard.forEach((buttonElement) => {
+  buttonElement.addEventListener("click", (event) => {
+    const button: string = buttonElement.innerHTML;
+
+    document.dispatchEvent(new KeyboardEvent("keyup", { key: button }));
+  });
+});
 
 const clearLocalStorage = (item: string) => {
   localStorage.setItem(item, "");
 };
 const updateLocalStorage = (key: string, value: number) => {
   localStorage.setItem(key, JSON.stringify(value));
+};
+const deactivateGame = () => {
+  document.removeEventListener("keyup", keyUpEvent);
 };
 
 function wordCheck(word: string, wordRow: Element | null, correctCount = 0) {
@@ -46,7 +60,6 @@ function wordCheck(word: string, wordRow: Element | null, correctCount = 0) {
       }
       if (typeof correctCount !== undefined) {
         correctCount += wordOfTheDay[x] === word[x] ? 1 : 0;
-        console.log(correctCount);
       }
     }
   }
@@ -60,8 +73,8 @@ function saveGuessedWord(word: string) {
 
   guessedWords.push(word);
   localStorage.setItem("guessedWords", JSON.stringify(guessedWords));
-  console.log(guessedWords);
 }
+
 guessedWords.forEach((guessedWord, index) => {
   const wordRow = document.querySelector(`.row-${index + 1}`);
   for (let x = 0; x < 5; x++) {
@@ -69,17 +82,11 @@ guessedWords.forEach((guessedWord, index) => {
     if (letterContainer) {
       letterContainer.innerHTML = guessedWord[x];
     }
-
-    wordCheck(guessedWord, wordRow);
   }
-});
-
-fullKeyBoard.forEach((buttonElement) => {
-  buttonElement.addEventListener("click", (event) => {
-    const button: string = buttonElement.innerHTML;
-
-    document.dispatchEvent(new KeyboardEvent("keyup", { key: button }));
-  });
+  if (wordCheck(guessedWord, wordRow) === 5) {
+    console.log("hey");
+    deactivateGame();
+  }
 });
 
 function main(words: string[]) {
@@ -107,86 +114,84 @@ function main(words: string[]) {
     generateNewWord();
   });
   // end -------------------------
+}
 
-  document.addEventListener("keyup", function keyUpEvent(event) {
-    const wordRow = document.querySelector(`.row-${row}`);
-    const letterContainer = wordRow?.querySelector(`.letter-${keysClicked}`);
-    const clickedKey: string = event.key.toLocaleLowerCase();
-    const previousLetterContainer = wordRow?.querySelector(
-      `.letter-${keysClicked - 1}`
-    );
-    let fullWord = "";
-    const deactivateGame = () => {
-      document.removeEventListener("keyup", keyUpEvent);
-    };
-    //handles clicked letters
-    if (
-      letterContainer != undefined &&
-      letter.test(clickedKey) === true &&
-      clickedKey.length === 1
-    ) {
-      letterContainer.innerHTML = clickedKey;
-      if (keysClicked === 5) {
+function keyUpEvent(event: any) {
+  const wordRow = document.querySelector(`.row-${row}`);
+  const letterContainer = wordRow?.querySelector(`.letter-${keysClicked}`);
+  const clickedKey: string = event.key.toLocaleLowerCase();
+  const previousLetterContainer = wordRow?.querySelector(
+    `.letter-${keysClicked - 1}`
+  );
+  let fullWord = "";
+
+  //handles clicked letters
+  if (
+    letterContainer != undefined &&
+    letter.test(clickedKey) === true &&
+    clickedKey.length === 1
+  ) {
+    letterContainer.innerHTML = clickedKey;
+    if (keysClicked === 5) {
+      return;
+    }
+
+    keysClicked++;
+  }
+
+  //handles backspace
+  if (clickedKey === "backspace") {
+    if (keysClicked === 0) {
+      return;
+    }
+    if (previousLetterContainer != undefined) {
+      previousLetterContainer.innerHTML = " ";
+    }
+
+    keysClicked = keysClicked - 1;
+  }
+
+  // handles Enter
+  if (clickedKey === "enter") {
+    for (let x = 0; x < 5; x++) {
+      fullWord += wordRow?.querySelector(`.letter-${x}`)?.innerHTML;
+    }
+
+    if (words.includes(fullWord)) {
+      saveGuessedWord(fullWord);
+
+      if (wordCheck(fullWord, wordRow) === 5) {
+        deactivateGame();
+
+        console.log("you win");
+        wins += 1;
+        streak += 1;
+
+        updateLocalStorage("wins", wins);
+        updateLocalStorage("streak", streak);
+        loadStatistics();
+
         return;
       }
 
-      keysClicked++;
+      row = row + 1;
+      updateLocalStorage("row", row);
+      tries += 1;
+      updateLocalStorage("tries", tries);
+
+      if (tries === 6) {
+        deactivateGame();
+        losses += 1;
+        streak = 0;
+        updateLocalStorage("losses", losses);
+        updateLocalStorage("streak", streak);
+        loadStatistics();
+        console.log("you lose");
+      }
+
+      keysClicked = 0;
     }
-
-    //handles backspace
-    if (clickedKey === "backspace") {
-      if (keysClicked === 0) {
-        return;
-      }
-      if (previousLetterContainer != undefined) {
-        previousLetterContainer.innerHTML = " ";
-      }
-
-      keysClicked = keysClicked - 1;
-    }
-
-    // handles Enter
-    if (clickedKey === "enter") {
-      for (let x = 0; x < 5; x++) {
-        fullWord += wordRow?.querySelector(`.letter-${x}`)?.innerHTML;
-      }
-
-      if (words.includes(fullWord)) {
-        saveGuessedWord(fullWord);
-
-        if (wordCheck(fullWord, wordRow) === 5) {
-          deactivateGame();
-
-          console.log("you win");
-          wins += 1;
-          streak += 1;
-
-          updateLocalStorage("wins", wins);
-          updateLocalStorage("streak", streak);
-          loadStatistics();
-
-          return;
-        }
-
-        row = row + 1;
-        updateLocalStorage("row", row);
-        tries += 1;
-        updateLocalStorage("tries", tries);
-
-        if (tries === 6) {
-          deactivateGame();
-          losses += 1;
-          streak = 0;
-          updateLocalStorage("losses", losses);
-          updateLocalStorage("streak", streak);
-          loadStatistics();
-          console.log("you lose");
-        }
-
-        keysClicked = 0;
-      }
-    }
-  });
+  }
 }
 
 fetch("/src/assets/wordList.json")
@@ -195,5 +200,6 @@ fetch("/src/assets/wordList.json")
     // Use data as needed
 
     main(data);
+    words = data;
   })
   .catch((error) => console.error("Error loading JSON:", error));
