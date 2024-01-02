@@ -127,6 +127,11 @@ body {
   border: none;
   border-radius: 8px;
 }
+
+.letter-button:focus-visible {
+  outline: none;
+}
+
 .empty-div {
   width: 200px;
 }

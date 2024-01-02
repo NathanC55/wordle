@@ -1,4 +1,5 @@
 // add lose feature
+//this is a new line
 let words: string[] = [];
 let wordOfTheDay = localStorage.getItem("word");
 let wins: number = Number(localStorage.getItem("wins"));
