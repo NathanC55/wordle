@@ -9,3 +9,9 @@ showSettings?.addEventListener("click", () => {
 closeSettings?.addEventListener("click", () => {
   settingsDialog?.close();
 });
+
+const hardModeSwitch = document.querySelector<HTMLInputElement>(".hardmode");
+
+hardModeSwitch?.addEventListener("change", () => {
+  hardModeSwitch.classList.toggle("on");
+});
