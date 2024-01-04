@@ -48,12 +48,13 @@ body {
   width: 200px;
 }
 
-.statistics-button {
+.statistics-button,
+.settings-button {
   height: 40px;
   background-color: transparent;
   border: none;
 }
-.statistics {
+.tool-icon {
   font-size: 25px;
 }
 

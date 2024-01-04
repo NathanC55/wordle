@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/src/styles/main.css" />
     <link rel="stylesheet" href="/src/styles/statistics.css" />
+    <link rel="stylesheet" href="/src/styles/settings.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -24,11 +25,11 @@
       <div class="title-container"><div class="title">Wordle Clone</div></div>
       <div class="nav-tools">
         <button class="statistics-button">
-          <i class="fa-solid fa-chart-simple statistics"></i>
+          <i class="fa-solid fa-chart-simple tool-icon"></i>
         </button>
 
-        <button class="statistics-button">
-          <i class="fa-solid fa-gear statistics"></i>
+        <button class="settings-button">
+          <i class="fa-solid fa-gear tool-icon"></i>
         </button>
       </div>
 
@@ -45,6 +46,10 @@
             <div class="number-stat" id="streak">0</div>
           </div>
         </div>
+      </dialog>
+      <dialog class="settings">
+        settings
+        <button class="close-settings">X</button>
       </dialog>
     </nav>
     <main class="game-container">
@@ -132,5 +137,6 @@
     </main>
     <script src="/dist/components/main.js"></script>
     <script src="/dist/components/statistics.js"></script>
+    <script src="/dist/components/settings.js"></script>
   </body>
 </html>
