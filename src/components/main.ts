@@ -1,4 +1,8 @@
+import { WORDS } from "./words";
 // add lose feature
+easyWords: [] = WORDS;
+console.log(WORDS);
+
 let words: string[] = [];
 let wordOfTheDay = localStorage.getItem("word");
 let wins: number = Number(localStorage.getItem("wins"));

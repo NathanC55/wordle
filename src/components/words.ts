@@ -5757,3 +5757,5 @@ const WORDS = [
   "biffy",
   "pupal",
 ];
+
+export { WORDS };
