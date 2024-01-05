@@ -1,3 +1,5 @@
+import { losses, streak, wins } from "./../index";
+
 const statsDialog = document.querySelector<HTMLDialogElement>(".stats");
 const showStats = document.querySelector(".statistics-button");
 const closeStats = document.querySelector(".close-stats");
@@ -15,7 +17,7 @@ closeStats?.addEventListener("click", () => {
   statsDialog?.close();
 });
 
-function loadStatistics() {
+export const loadStatistics = () => {
   if (
     totalGamesPlayed != null &&
     totalLosses != null &&
@@ -31,6 +33,6 @@ function loadStatistics() {
 
     totalStreaks.innerHTML = `<div class="number">${streak}</div><div class="font">Streak</div>`;
   }
-}
+};
 
 loadStatistics();

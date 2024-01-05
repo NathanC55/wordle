@@ -1,13 +1,13 @@
-import { WORDS } from "./words";
-// add lose feature
-easyWords: [] = WORDS;
-console.log(WORDS);
+import { loadStatistics } from "./components/statistics";
+import "./styles/main.css";
+import "./styles/settin./assets/words
+import "./styles/statistics.css";
 
 let words: string[] = [];
 let wordOfTheDay = localStorage.getItem("word");
-let wins: number = Number(localStorage.getItem("wins"));
-let losses: number = Number(localStorage.getItem("losses"));
-let streak: number = Number(localStorage.getItem("streak"));
+export let wins: number = Number(localStorage.getItem("wins"));
+export let losses: number = Number(localStorage.getItem("losses"));
+export let streak: number = Number(localStorage.getItem("streak"));
 let tries: number = Number(localStorage.getItem("tries")) || 0;
 let keysClicked = 0;
 let row: number = Number(localStorage.getItem("row")) || 1;
@@ -44,8 +44,8 @@ function wordCheck(word: string, wordRow: Element | null, correctCount = 0) {
         wordOfTheDay[x] === word[x]
           ? "correct"
           : wordOfTheDay.includes(word[x])
-          ? "incorrect-spot"
-          : "wrong";
+            ? "incorrect-spot"
+            : "wrong";
 
       const currentElement = wordRow?.querySelector(`.letter-${x}`);
       const buttonElement = document.querySelector(
@@ -92,11 +92,13 @@ guessedWords.forEach((guessedWord, index) => {
   }
 });
 
-function main(words: string[]) {
+function main() {
   // keep in main function----------
   const generateNewWordButton = document.querySelector(".word-generator");
 
   function generateNewWord() {
+    // const hardModeSwitch = document.querySelector<HTMLInputElement>(".hardmode");
+    // if (hardModeSwitch.classList)
     const fiveLetterWords = words.filter((word) => word.length === 5);
     let newWord =
       fiveLetterWords[Math.floor(Math.random() * fiveLetterWords.length)];
@@ -197,12 +199,4 @@ function keyUpEvent(event: any) {
   }
 }
 
-fetch("/src/assets/wordList.json")
-  .then((response) => response.json())
-  .then((data) => {
-    // Use data as needed
-
-    main(data);
-    words = data;
-  })
-  .catch((error) => console.error("Error loading JSON:", error));
+main();

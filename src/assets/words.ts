@@ -1,4 +1,4 @@
-const WORDS = [
+export const easyWords = [
   "which",
   "there",
   "their",
@@ -5757,5 +5757,3 @@ const WORDS = [
   "biffy",
   "pupal",
 ];
-
-export { WORDS };
