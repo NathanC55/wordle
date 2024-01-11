@@ -1,17 +1,32 @@
+import { clearBoardAlert, hardModeSwitch } from "./components/settings";
+import { hardWords } from "./assets/hard_words";
+import { easyWords } from "./assets/easy_words";
 import { loadStatistics } from "./components/statistics";
 import "./styles/main.css";
-import "./styles/settin./assets/words
+import "./styles/settings.css";
 import "./styles/statistics.css";
 
-let words: string[] = [];
+let wordList: string[] = [];
+const hardModeCheck = () => {
+  if (JSON.parse(localStorage.getItem("hardmode")) === true) {
+    wordList = hardWords;
+    hardModeSwitch.checked = true;
+    return;
+  }
+  wordList = easyWords;
+  hardModeSwitch.checked = false;
+};
+hardModeCheck();
+
+let realWords: string[] = hardWords;
 let wordOfTheDay = localStorage.getItem("word");
-export let wins: number = Number(localStorage.getItem("wins"));
-export let losses: number = Number(localStorage.getItem("losses"));
-export let streak: number = Number(localStorage.getItem("streak"));
+export let wins: number = Number(localStorage.getItem("wins")) || 0;
+export let losses: number = Number(localStorage.getItem("losses")) || 0;
+export let streak: number = Number(localStorage.getItem("streak")) || 0;
 let tries: number = Number(localStorage.getItem("tries")) || 0;
 let keysClicked = 0;
 let row: number = Number(localStorage.getItem("row")) || 1;
-let guessedWords: string[] = JSON.parse(
+export let guessedWords: string[] = JSON.parse(
   localStorage.getItem("guessedWords") || "[]"
 );
 const letter = /^[a-zA-Z]+$/;
@@ -92,34 +107,29 @@ guessedWords.forEach((guessedWord, index) => {
   }
 });
 
-function main() {
-  // keep in main function----------
-  const generateNewWordButton = document.querySelector(".word-generator");
+const generateNewWordButton =
+  document.querySelector<HTMLButtonElement>(".word-generator");
 
-  function generateNewWord() {
-    // const hardModeSwitch = document.querySelector<HTMLInputElement>(".hardmode");
-    // if (hardModeSwitch.classList)
-    const fiveLetterWords = words.filter((word) => word.length === 5);
-    let newWord =
-      fiveLetterWords[Math.floor(Math.random() * fiveLetterWords.length)];
-    localStorage.setItem("word", newWord);
-    wordOfTheDay = newWord;
-    row = 1;
-    tries = 0;
-    updateLocalStorage("row", row);
-    updateLocalStorage("tries", tries);
-    clearLocalStorage("guessedWords");
-
-    location.reload();
+export function generateNewWord() {
+  if (localStorage.getItem("guessedWords")) {
+    clearBoardAlert.showModal();
+    return;
   }
+  const fiveLetterWords = wordList.filter((word) => word.length === 5);
+  let newWord =
+    fiveLetterWords[Math.floor(Math.random() * fiveLetterWords.length)];
+  localStorage.setItem("word", newWord);
+  wordOfTheDay = newWord;
+  row = 1;
+  tries = 0;
+  updateLocalStorage("row", row);
+  updateLocalStorage("tries", tries);
+  clearLocalStorage("guessedWords");
 
-  if (!wordOfTheDay) {
-    generateNewWord();
-  }
-
-  generateNewWordButton?.addEventListener("click", generateNewWord);
-  // end -------------------------
+  location.reload();
 }
+
+generateNewWordButton.addEventListener("click", generateNewWord);
 
 function keyUpEvent(event: any) {
   const wordRow = document.querySelector(`.row-${row}`);
@@ -162,7 +172,7 @@ function keyUpEvent(event: any) {
       fullWord += wordRow?.querySelector(`.letter-${x}`)?.innerHTML;
     }
 
-    if (words.includes(fullWord)) {
+    if (realWords.includes(fullWord)) {
       saveGuessedWord(fullWord);
 
       if (wordCheck(fullWord, wordRow) === 5) {
@@ -199,4 +209,6 @@ function keyUpEvent(event: any) {
   }
 }
 
-main();
+if (!wordOfTheDay) {
+  generateNewWord();
+}
