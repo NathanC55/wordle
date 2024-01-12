@@ -1,10 +1,8 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/src/styles/main.css" />
-    <link rel="stylesheet" href="/src/styles/statistics.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -19,16 +17,15 @@
   </head>
   <body>
     <nav class="nav-bar">
-      <button class="word-generator">Generate New Word</button>
       <div class="empty-div"></div>
       <div class="title-container"><div class="title">Wordle Clone</div></div>
       <div class="nav-tools">
         <button class="statistics-button">
-          <i class="fa-solid fa-chart-simple statistics"></i>
+          <i class="fa-solid fa-chart-simple tool-icon"></i>
         </button>
 
-        <button class="statistics-button">
-          <i class="fa-solid fa-gear statistics"></i>
+        <button class="settings-button">
+          <i class="fa-solid fa-gear tool-icon"></i>
         </button>
       </div>
 
@@ -45,6 +42,24 @@
             <div class="number-stat" id="streak">0</div>
           </div>
         </div>
+      </dialog>
+      <dialog class="settings">
+        settings
+        <button class="close-settings">X</button>
+
+        <div class="hardmode-switch-container">
+          <input type="checkbox" id="cb3-8" class="hardmode-switch" />
+          <label>Hard Mode</label>
+        </div>
+        <div><button class="word-generator">Generate New Word</button></div>
+      </dialog>
+      <dialog class="clearing-board-alert">
+        <div>
+          You are currently in the middle of a game. This will restart a new
+          game. Do you wish to continue?
+        </div>
+        <button class="clear-board-continue">Continue</button>
+        <button class="clear-board-cancel">Cancel</button>
       </dialog>
     </nav>
     <main class="game-container">
@@ -130,7 +145,6 @@
         </div>
       </div>
     </main>
-    <script src="/dist/components/main.js"></script>
-    <script src="/dist/components/statistics.js"></script>
+    <script src="/dist/index.js"></script>
   </body>
 </html>

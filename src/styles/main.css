@@ -48,12 +48,13 @@ body {
   width: 200px;
 }
 
-.statistics-button {
+.statistics-button,
+.settings-button {
   height: 40px;
   background-color: transparent;
   border: none;
 }
-.statistics {
+.tool-icon {
   font-size: 25px;
 }
 
@@ -127,6 +128,13 @@ body {
   border: none;
   border-radius: 8px;
 }
+
+.letter-button,
+.settings-button,
+.statistics-button:focus-visible {
+  outline: none;
+}
+
 .empty-div {
   width: 200px;
 }
