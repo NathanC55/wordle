@@ -1,4 +1,4 @@
-﻿# Wordle Clone (under development)
+﻿# Wordle Clone 
 
 ### Generate word clouds easily with this lightweight Worlde clone.
 
