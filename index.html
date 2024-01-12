@@ -10,10 +10,7 @@
       rel="stylesheet"
     />
     <title>Wordle</title>
-    <script
-      src="https://kit.fontawesome.com/ef43dca0c1.js"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://kit.fontawesome.com/ef43dca0c1.js" crossorigin="anonymous"></script>
   </head>
   <body>
     <nav class="nav-bar">
@@ -44,22 +41,28 @@
         </div>
       </dialog>
       <dialog class="settings">
-        settings
-        <button class="close-settings">X</button>
+        <div class="heading-close-button">
+          <div class="settings-heading">Settings</div>
+          <button class="close-settings">X</button>
+        </div>
 
         <div class="hardmode-switch-container">
-          <input type="checkbox" id="cb3-8" class="hardmode-switch" />
-          <label>Hard Mode</label>
+          <label class="hardmode-heading">Hard Mode</label>
+          <label class="switch">
+            <input type="checkbox" class="hardmode-switch" />
+            <span class="slider round"></span>
+          </label>
         </div>
         <div><button class="word-generator">Generate New Word</button></div>
       </dialog>
       <dialog class="clearing-board-alert">
-        <div>
-          You are currently in the middle of a game. This will restart a new
-          game. Do you wish to continue?
+        <div class="alert-container">
+          <div>You are currently in the middle of a game. This will restart a new game. Do you wish to continue?</div>
+          <div class="alert-button-container">
+            <button class="alert-button clear-board-continue">Continue</button>
+            <button class="alert-button clear-board-cancel">Cancel</button>
+          </div>
         </div>
-        <button class="clear-board-continue">Continue</button>
-        <button class="clear-board-cancel">Cancel</button>
       </dialog>
     </nav>
     <main class="game-container">

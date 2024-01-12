@@ -1,4 +1,4 @@
-import { clearBoardAlert, hardModeSwitch } from "./components/settings";
+import { clearBoardAlert, handleToggleHTMLInput, hardModeSwitch } from "./components/settings";
 import { hardWords } from "./assets/hard_words";
 import { easyWords } from "./assets/easy_words";
 import { loadStatistics } from "./components/statistics";
@@ -7,8 +7,9 @@ import "./styles/settings.css";
 import "./styles/statistics.css";
 
 let wordList: string[] = [];
-const hardModeCheck = () => {
-  if (JSON.parse(localStorage.getItem("hardmode")) === true) {
+const hardModeON = JSON.parse(localStorage.getItem("hardmode")) === true;
+export const hardModeCheck = () => {
+  if (hardModeON) {
     wordList = hardWords;
     hardModeSwitch.checked = true;
     return;
@@ -26,9 +27,7 @@ export let streak: number = Number(localStorage.getItem("streak")) || 0;
 let tries: number = Number(localStorage.getItem("tries")) || 0;
 let keysClicked = 0;
 let row: number = Number(localStorage.getItem("row")) || 1;
-export let guessedWords: string[] = JSON.parse(
-  localStorage.getItem("guessedWords") || "[]"
-);
+export let guessedWords: string[] = JSON.parse(localStorage.getItem("guessedWords") || "[]");
 const letter = /^[a-zA-Z]+$/;
 const fullKeyBoard = document.querySelectorAll(".letter-button");
 
@@ -56,16 +55,10 @@ function wordCheck(word: string, wordRow: Element | null, correctCount = 0) {
   for (let x = 0; x < 5; x++) {
     if (wordOfTheDay != null) {
       const letterClass =
-        wordOfTheDay[x] === word[x]
-          ? "correct"
-          : wordOfTheDay.includes(word[x])
-            ? "incorrect-spot"
-            : "wrong";
+        wordOfTheDay[x] === word[x] ? "correct" : wordOfTheDay.includes(word[x]) ? "incorrect-spot" : "wrong";
 
       const currentElement = wordRow?.querySelector(`.letter-${x}`);
-      const buttonElement = document.querySelector(
-        `.${word[x].toLocaleUpperCase()}`
-      );
+      const buttonElement = document.querySelector(`.${word[x].toLocaleUpperCase()}`);
 
       if (currentElement) {
         setTimeout(() => {
@@ -107,17 +100,16 @@ guessedWords.forEach((guessedWord, index) => {
   }
 });
 
-const generateNewWordButton =
-  document.querySelector<HTMLButtonElement>(".word-generator");
+const generateNewWordButton = document.querySelector<HTMLButtonElement>(".word-generator");
 
 export function generateNewWord() {
   if (localStorage.getItem("guessedWords")) {
+    handleToggleHTMLInput(false);
     clearBoardAlert.showModal();
     return;
   }
   const fiveLetterWords = wordList.filter((word) => word.length === 5);
-  let newWord =
-    fiveLetterWords[Math.floor(Math.random() * fiveLetterWords.length)];
+  let newWord = fiveLetterWords[Math.floor(Math.random() * fiveLetterWords.length)];
   localStorage.setItem("word", newWord);
   wordOfTheDay = newWord;
   row = 1;
@@ -135,17 +127,11 @@ function keyUpEvent(event: any) {
   const wordRow = document.querySelector(`.row-${row}`);
   const letterContainer = wordRow?.querySelector(`.letter-${keysClicked}`);
   const clickedKey: string = event.key.toLocaleLowerCase();
-  const previousLetterContainer = wordRow?.querySelector(
-    `.letter-${keysClicked - 1}`
-  );
+  const previousLetterContainer = wordRow?.querySelector(`.letter-${keysClicked - 1}`);
   let fullWord = "";
 
   //handles clicked letters
-  if (
-    letterContainer != undefined &&
-    letter.test(clickedKey) === true &&
-    clickedKey.length === 1
-  ) {
+  if (letterContainer != undefined && letter.test(clickedKey) === true && clickedKey.length === 1) {
     letterContainer.innerHTML = clickedKey;
     if (keysClicked === 5) {
       return;
