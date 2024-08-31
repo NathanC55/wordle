@@ -8,3 +8,4 @@
 - Supports various input formats
 - Play more then once a day
 - Hard Mode (Word difficulty)
+- test
